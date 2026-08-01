@@ -40,10 +40,15 @@ TARGET="${ARCH}-${OS}"
 echo "==> 获取最新版本..."
 VERSION="${BRIDGENT_VERSION:-}"
 if [ -z "$VERSION" ]; then
+  if ! command -v git >/dev/null 2>&1; then
+    echo "error: 未找到 git 命令；可手动指定版本：BRIDGENT_VERSION=v0.1.0" >&2
+    exit 1
+  fi
   VERSION="$(git ls-remote --tags --refs "https://github.com/${REPO}.git" 'refs/tags/v*' | awk -F/ '{print $NF}' | sort -V | tail -n1)"
 fi
 if [ -z "$VERSION" ]; then
-  echo "error: 无法获取最新版本；可手动指定版本重试：BRIDGENT_VERSION=v0.1.0 curl -fsSL ... | bash" >&2
+  echo "error: 无法获取最新版本（git ls-remote 失败，请检查网络/代理，或手动指定版本）" >&2
+  echo "  兜底: BRIDGENT_VERSION=v0.1.0 curl -fsSL https://raw.githubusercontent.com/${REPO}/main/install.sh | bash" >&2
   exit 1
 fi
 echo "    最新版本: $VERSION"
@@ -51,6 +56,7 @@ echo "    最新版本: $VERSION"
 # --- 下载并解压 ---
 URL="https://github.com/${REPO}/releases/download/${VERSION}/bridgent-${TARGET}.tar.gz"
 echo "==> 下载 ${TARGET} 二进制..."
+echo "    下载地址: $URL"
 TMP="$(mktemp -d)"
 trap 'rm -rf "$TMP"' EXIT
 curl -fsSL "$URL" -o "$TMP/bridgent.tar.gz"
