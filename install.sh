@@ -36,11 +36,14 @@ esac
 
 TARGET="${ARCH}-${OS}"
 
-# --- 获取最新版本（git ls-remote，避免 GitHub API 限流） ---
+# --- 获取最新版本（git ls-remote，避免 GitHub API 限流；可用 BRIDGENT_VERSION 指定） ---
 echo "==> 获取最新版本..."
-VERSION="$(git ls-remote --tags --refs "https://github.com/${REPO}.git" 'refs/tags/v*' | awk -F/ '{print $NF}' | sort -V | tail -n1)"
+VERSION="${BRIDGENT_VERSION:-}"
 if [ -z "$VERSION" ]; then
-  echo "error: 无法获取最新版本，请确认仓库已发布 Release，且网络可访问 github.com" >&2
+  VERSION="$(git ls-remote --tags --refs "https://github.com/${REPO}.git" 'refs/tags/v*' | awk -F/ '{print $NF}' | sort -V | tail -n1)"
+fi
+if [ -z "$VERSION" ]; then
+  echo "error: 无法获取最新版本；可手动指定版本重试：BRIDGENT_VERSION=v0.1.0 curl -fsSL ... | bash" >&2
   exit 1
 fi
 echo "    最新版本: $VERSION"
