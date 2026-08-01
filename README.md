@@ -16,7 +16,7 @@ curl -fsSL https://raw.githubusercontent.com/liuenzuo666/bridgent/main/install.s
 INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/liuenzuo666/bridgent/main/install.sh | bash
 ```
 
-支持的平台：macOS（Apple Silicon / Intel）、Linux（x86_64）。
+支持的平台：macOS（Apple Silicon）、Linux（x86_64）。
 
 > 需要源码安装（如平台暂无预编译包）时，可用 `cargo install --path .`（或 `cargo install --git https://github.com/liuenzuo666/bridgent`）。
 

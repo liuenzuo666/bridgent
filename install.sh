@@ -21,7 +21,13 @@ esac
 
 case "$(uname -m)" in
   arm64 | aarch64) ARCH="aarch64" ;;
-  x86_64 | amd64)  ARCH="x86_64" ;;
+  x86_64 | amd64)
+    if [ "$OS" = "apple-darwin" ]; then
+      echo "error: 暂不支持 Intel Mac (x86_64)，预编译包仅提供 Apple Silicon (arm64)" >&2
+      exit 1
+    fi
+    ARCH="x86_64"
+    ;;
   *)
     echo "error: 暂不支持架构 $(uname -m)，预编译包仅提供 arm64 / x86_64" >&2
     exit 1
