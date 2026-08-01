@@ -36,12 +36,11 @@ esac
 
 TARGET="${ARCH}-${OS}"
 
-# --- 获取最新版本 ---
+# --- 获取最新版本（git ls-remote，避免 GitHub API 限流） ---
 echo "==> 获取最新版本..."
-API="https://api.github.com/repos/${REPO}/releases/latest"
-VERSION="$(curl -fsSL "$API" | sed -n 's/.*"tag_name": *"\([^"]*\)".*/\1/p' | head -n1)"
+VERSION="$(git ls-remote --tags --refs "https://github.com/${REPO}.git" 'refs/tags/v*' | awk -F/ '{print $NF}' | sort -V | tail -n1)"
 if [ -z "$VERSION" ]; then
-  echo "error: 无法获取最新版本，请确认仓库已发布 Release，或稍后重试" >&2
+  echo "error: 无法获取最新版本，请确认仓库已发布 Release，且网络可访问 github.com" >&2
   exit 1
 fi
 echo "    最新版本: $VERSION"
