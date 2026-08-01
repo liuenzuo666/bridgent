@@ -20,6 +20,14 @@ INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/liuenzuo
 
 > 需要源码安装（如平台暂无预编译包）时，可用 `cargo install --path .`（或 `cargo install --git https://github.com/liuenzuo666/bridgent`）。
 
+**卸载**（删除二进制）：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/liuenzuo666/bridgent/main/uninstall.sh | bash
+```
+
+若安装时用了自定义目录，卸载时需保持一致：`INSTALL_DIR=/usr/local/bin curl -fsSL ... | bash`。
+
 ## 用法
 
 ### 接管已有配置目录
