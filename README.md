@@ -4,9 +4,21 @@
 
 ## 安装
 
+**macOS / Linux 一行命令安装**（自动检测系统与架构，从 GitHub Releases 下载最新版）：
+
 ```bash
-cargo install --path .
+curl -fsSL https://raw.githubusercontent.com/liuenzuo666/bridgent/main/install.sh | bash
 ```
+
+默认安装到 `~/.local/bin`，也可自定义目录（需对应写权限）：
+
+```bash
+INSTALL_DIR=/usr/local/bin curl -fsSL https://raw.githubusercontent.com/liuenzuo666/bridgent/main/install.sh | bash
+```
+
+支持的平台：macOS（Apple Silicon / Intel）、Linux（x86_64）。
+
+> 需要源码安装（如平台暂无预编译包）时，可用 `cargo install --path .`（或 `cargo install --git https://github.com/liuenzuo666/bridgent`）。
 
 ## 用法
 
